@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class OpenAIServiceImplTest {
-    Logger LOG = LoggerFactory.getLogger(OpenAIServiceImplTest.class);
+    static Logger LOG = LoggerFactory.getLogger(OpenAIServiceImplTest.class);
 
     @Autowired
     OpenAIServiceImpl openAIService;
