@@ -1,5 +1,6 @@
 package guru.springframework.springaiintro.services;
 
+import guru.springframework.springaiintro.model.Question;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ class OpenAIServiceImplTest {
 
     @Test
     void getAnswer() {
-        String answer = openAIService.getAnswer("Tell me a dad joke.");
+        String answer = openAIService.getAnswer(new Question("Tell me a dad joke.")).answer();
         LOG.info("Answer: {}", answer);
         assertNotNull(answer);
         assertNotEquals("", answer);
