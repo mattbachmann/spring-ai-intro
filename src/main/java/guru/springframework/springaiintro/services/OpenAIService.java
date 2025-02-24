@@ -1,14 +1,11 @@
 package guru.springframework.springaiintro.services;
 
-import guru.springframework.springaiintro.model.Answer;
-import guru.springframework.springaiintro.model.CapitalRequest;
-import guru.springframework.springaiintro.model.CapitalResponse;
-import guru.springframework.springaiintro.model.Question;
+import guru.springframework.springaiintro.model.*;
 
 public interface OpenAIService {
     CapitalResponse getCapital(CapitalRequest capitalRequest);
 
-    Answer getCapitalWithInfo(CapitalRequest capitalRequest);
+    CapitalWithInfoResponse getCapitalWithInfo(CapitalRequest capitalRequest);
 
     Answer getAnswer(Question question);
 }

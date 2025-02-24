@@ -1,9 +1,6 @@
 package guru.springframework.springaiintro.services;
 
-import guru.springframework.springaiintro.model.Answer;
-import guru.springframework.springaiintro.model.CapitalRequest;
-import guru.springframework.springaiintro.model.CapitalResponse;
-import guru.springframework.springaiintro.model.Question;
+import guru.springframework.springaiintro.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.model.ChatModel;
@@ -26,9 +23,6 @@ public class OpenAIServiceImpl implements OpenAIService {
     @Value("classpath:templates/capital-prompt.st")
     private Resource capitalPrompt;
 
-    @Value("classpath:templates/capital-prompt-with-info.st")
-    private Resource capitalPromptWithInfo;
-
     public OpenAIServiceImpl(ChatModel chatModel) {
         this.chatModel = chatModel;
     }
@@ -48,13 +42,17 @@ public class OpenAIServiceImpl implements OpenAIService {
     }
 
     @Override
-    public Answer getCapitalWithInfo(CapitalRequest capitalRequest) {
+    public CapitalWithInfoResponse getCapitalWithInfo(CapitalRequest capitalRequest) {
         LOG.info("getCapitalWithInfo called");
-        PromptTemplate promptTemplate = new PromptTemplate(capitalPromptWithInfo);
-        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", capitalRequest.stateOrCountry()));
+        BeanOutputConverter<CapitalWithInfoResponse> converter = new BeanOutputConverter<>(CapitalWithInfoResponse.class);
+        String format = converter.getFormat();
+        LOG.info("format: {}", format);
+        PromptTemplate promptTemplate = new PromptTemplate(capitalPrompt);
+        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", capitalRequest.stateOrCountry(),
+                "format", format));
         ChatResponse response = chatModel.call(prompt);
 
-        return new Answer(response.getResult().getOutput().getContent());
+        return converter.convert(response.getResult().getOutput().getContent());
     }
 
     @Override
