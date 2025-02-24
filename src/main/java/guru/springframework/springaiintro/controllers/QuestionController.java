@@ -2,6 +2,7 @@ package guru.springframework.springaiintro.controllers;
 
 import guru.springframework.springaiintro.model.Answer;
 import guru.springframework.springaiintro.model.CapitalRequest;
+import guru.springframework.springaiintro.model.CapitalResponse;
 import guru.springframework.springaiintro.model.Question;
 import guru.springframework.springaiintro.services.OpenAIService;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class QuestionController {
     }
 
     @PostMapping("/capital")
-    public Answer askCapital(@RequestBody CapitalRequest request) {
+    public CapitalResponse askCapital(@RequestBody CapitalRequest request) {
         return this.openAIService.getCapital(request);
     }
 
